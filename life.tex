@@ -153,10 +153,17 @@
     \endgroup\next
 }
 
-%% TODO:
-%%     Beautify display;
-%%     Toroidal array;
-%%     Interactive PDF version (if possible).
+% Parsing Life 1.06 test
+\def\parse#1{\@parse#1^^M@END @END^^M}
+
+\def\@parse#1 #2^^M{I found '#1' and '#2'\endgraf}
+
+\parse{
+    1 1
+    2 2
+    0 2
+    1 0
+}
 
 \catcode`@=12\relax
 
