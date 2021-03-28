@@ -1,6 +1,5 @@
 # Game of Life in TeX
 An implementation of the finite state automata *The Game of Life* devised by the British mathematician John Horton Conway in the typesetting system TeX.
-------
 
 ## How do I view the output?
 Scroll *really* fast. Or press page down repeatedly.
