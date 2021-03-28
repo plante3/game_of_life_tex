@@ -153,35 +153,11 @@
     \endgroup\next
 }
 
-% Parsing Life 1.06 test
-\def\parse#1{\@parse#1^^M@END @END^^M}
-
-\def\@parse@end{@END}
-\def\@parse#1 #2^^M{
-    \def\next{#1}%
-    \ifx\@parse@end\next
-        \let\next\relax
-    \else
-        \do#1/#2/
-        \let\next\@parse
-    \fi\next
-}
-
-\def\do#1/#2/{I found '#1' and '#2'\endgraf}
-
-\parse{%
-    1 1
-    2 2
-    0 2
-    1 0
-}
-
 \catcode`@=12\relax
 
-\vfill\eject 
 \game{zz,zy,zx,yx,xz,xy,wy,vz,vw,vv,wv,xv,zv}
 
-%\gameforw{181}
+\gameforw{181}
 
 
 
