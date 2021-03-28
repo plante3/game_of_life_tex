@@ -6,22 +6,21 @@
 
 %% ## Setup. ##
 \catcode`@=11\relax
-\newcount\i \newcount\j \newcount\k \newcount\t \newcount\p \newcount\h \newcount\lb@size@x \newcount\lb@size@y \newcount\lb@iter
-         \i=1        \j=1        \k=1        \t=1        \p=1        \h=1        \lb@size@x=47       \lb@size@y=58       \lb@iter=0\relax
+\newcount\i \newcount\j \newcount\k \newcount\t \newcount\p \newcount\h \newcount\lb@size@x \newcount\lb@size@y \newcount\lb@iter \newcount\lb@diff
+         \i=1        \j=1        \k=1        \t=1        \p=1        \h=1        \lb@size@x=47       \lb@size@y=60       \lb@iter=0        \lb@diff=0\relax
 
 %% ## Title. ##
 %% Here we set up the fonts.
-\font\magtenrm=cmr10 scaled 3000
-\font\magtensc=cmcsc10 scaled 3000
+\font\magtensc=cmcsc10 scaled 1500
+\font\magtenrm=cmr10 scaled 2000
 \font\magtenit=cmti10 scaled 1600
 \baselineskip=1000pt \lineskip=2pt \lineskiplimit=16383pt \parindent=0pt \let\folio\relax
 
 %% The title.
 \def\title{%
-    \line{\magtensc Conway's \hss \tt Iteration \the\lb@iter}\vskip 10pt
-    \line{\magtenrm Game of Life \hss \magtenit An implementation in \TeX.}\vskip 15pt
+    \line{\hskip -2em\magtensc Conway's \hss \tt Iteration \the\lb@iter}\vskip 5pt
+    \line{\magtenrm Game of Life \hss \magtenit An implementation in \TeX\rlap{.}}\vskip 15pt
 }
-\title
 
 %% Loops over the entire board.
 \def\lb@loop#1#2{%
@@ -45,52 +44,25 @@
     \lb@loop{\global\expandafter\let\csname lc@\the\i;\the\j\endcsname\lc@dead}{}%
 }
 
-%% ## Input handling. ##
-%% Check for optional argument.
-\def\game{\futurelet\next\x@game}
-\def\x@game{%
-    \ifx[\next
-        \expandafter\@game
-    \else
-        \expandafter\@@game
-    \fi
-}
-\def\@game[#1,#2]#3{\lb@iter=0\lb@size@x=#1\lb@size@y=#2\lb@init\relax\game@parse#3,@END,}
-\def\@@game#1{\@game[47,58]{#1}}
-
-%% Parse a list of input coordinates separated by commas.
-\def\game@parse@end{@END}
-\def\game@parse#1,{%
-    \def\next{#1}%
-    \ifx\game@parse@end\next
-        \let\next\lb@print
-    \else
-        \lb@conv#1/
-        \let\next\game@parse
-    \fi\next
-}
-%% Convert from user input (alphabet) to numbers.
-\def\lb@conv#1#2/{%
-    \t=`#1\advance\t-96\relax
-    \p=`#2\advance\p-96\relax
-    \lb@place\p/\t/
-}
-%% Place (make alive) cell at input coordinate.
-\def\lb@place#1/#2/{\begingroup
-    \i=#1\j=#2
-    \global\expandafter\let\csname lc@\the\i;\the\j\endcsname\lc@alive
-\endgroup}
-
 %% Display board.
 \def\lb@print{\lb@loop{\csname lc@\the\i;\the\j\endcsname}{\endgraf}}
-\def\lb@print@next{\lb@loop{%
+\def\lb@print@next{%
+    \lb@diff=0
+    \lb@loop{%
+        \expandafter\ifx\csname lc@\the\i;\the\j\expandafter\endcsname\csname lc@next@\the\i;\the\j\endcsname
+        \else
+            \global\advance\lb@diff1
+        \fi
         \global\expandafter\let\csname lc@\the\i;\the\j\expandafter\endcsname\csname lc@next@\the\i;\the\j\endcsname
         \csname lc@\the\i;\the\j\endcsname}{\endgraf}%
+    \ifnum\lb@diff=0
+        \lb@stop
+    \fi
 }
 
 %% ## Update processing. ##
-\def\lb@tick{\global\advance\lb@iter1\relax\lb@loop{\lc@update}{}}
-\def\lc@update{
+\def\lb@tick{\relax\lb@loop{\lc@update}{}}
+\def\lc@update{%
     \expandafter\ifx\csname lc@\the\i;\the\j\endcsname\lc@alive
         \lc@update@alive
     \else
@@ -143,8 +115,10 @@
 \def\lc@update@to@dead{\global\expandafter\let\csname lc@next@\the\i;\the\j\endcsname\lc@dead}
 \def\lc@update@to@alive{\global\expandafter\let\csname lc@next@\the\i;\the\j\endcsname\lc@alive}
 
-% User command for forwarding arbitrary steps.
-\def\lb@forw@once{\vfill\eject\title\lb@tick\lb@print@next}
+%% ## Processing Control. ##
+%% User command for forwarding arbitrary steps.
+\def\lb@forw@once{\vfill\eject\advance\lb@iter1\title\lb@tick\lb@print@next}
+\let\lb@forw@once@\lb@forw@once
 \def\gameforw#1{%
     \h=1\begingroup
         \aftergroup\def\aftergroup\next\aftergroup{%
@@ -153,12 +127,55 @@
     \endgroup\next
 }
 
+%% Halts processing.
+\def\lb@stop{%
+    \errmessage{All life ceased after iteration \the\lb@iter.}
+    \let\lb@forw@once@\lb@forw@once\let\lb@forw@once\empty
+}
+
+%% ## Input handling. ##
+%% Check for optional argument.
+\def\game{\title\futurelet\next\x@game}
+\def\x@game{%
+    \ifx[\next
+        \expandafter\@game
+    \else
+        \expandafter\@@game
+    \fi
+}
+\def\@game[#1,#2]#3{%
+    \let\lb@forw@once\lb@forw@once@
+    \lb@iter=0\lb@size@x=#1\lb@size@y=#2%
+    \lb@init\relax\game@parse#3,@END,%
+}
+\def\@@game#1{\@game[47,60]{#1}}
+
+%% Parse a list of input coordinates separated by commas.
+\def\game@parse@end{@END}
+\def\game@parse#1,{%
+    \def\next{#1}%
+    \ifx\game@parse@end\next
+        \let\next\lb@print
+    \else
+        \lb@conv#1/
+        \let\next\game@parse
+    \fi\next
+}
+%% Convert from user input (alphabet) to numbers.
+\def\lb@conv#1#2/{%
+    \p=`#2\advance\p-96\relax
+    \t=`#1\advance\t-96\relax
+    \lb@place\p/\t/
+}
+%% Place (make alive) cell at input coordinate.
+\def\lb@place#1/#2/{\begingroup
+    \i=#1\j=#2
+    \global\expandafter\let\csname lc@\the\i;\the\j\endcsname\lc@alive
+\endgroup}
+
 \catcode`@=12\relax
 
 \game{zz,zy,zx,yx,xz,xy,wy,vz,vw,vv,wv,xv,zv}
-
-\gameforw{181}
-
-
+\gameforw{417}
 
 \bye
