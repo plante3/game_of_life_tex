@@ -1,0 +1,18 @@
+%%
+%% # Conway's Game of Life - a (finite) implementation in TeX. #
+%%
+
+\catcode`@=12\relax
+
+    \input life_setup
+
+    \input life_engine
+
+    \input life_input
+
+\catcode`@=12\relax
+
+\game{zz,zy,zx,yx,xz,xy,wy,vz,vw,vv,wv,xv,zv}
+\gameforw{12}
+
+\bye

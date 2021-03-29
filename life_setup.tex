@@ -1,0 +1,38 @@
+%% ## Setup. ##
+\catcode`@=11\relax
+\newcount\i \newcount\j \newcount\k \newcount\t \newcount\p \newcount\h \newcount\lb@size@x \newcount\lb@size@y \newcount\lb@iter \newcount\lb@diff
+         \i=1        \j=1        \k=1        \t=1        \p=1        \h=1        \lb@size@x=47       \lb@size@y=60       \lb@iter=0        \lb@diff=0\relax
+
+%% ## Title. ##
+\font\magtensc=cmcsc10 scaled 1500
+\font\magtenrm=cmr10 scaled 2000
+\font\magtenit=cmti10 scaled 1600
+\baselineskip=1000pt \lineskip=2pt \lineskiplimit=16383pt \parindent=0pt \let\folio\relax
+
+%% The title.
+\def\title{%
+    \line{\hskip -2em\magtensc Conway's \hss \tt Iteration \the\lb@iter}\vskip 5pt
+    \line{\magtenrm Game of Life \hss \magtenit An implementation in \TeX\rlap{.}}\vskip 15pt
+}
+
+%% Loops over the entire board.
+\def\lb@loop#1#2{%
+    \i=1\j=1
+    \loop
+        {\loop#1\advance\j1\ifnum\j<\lb@size@x\repeat}#2%
+        \advance\i1\relax
+    \ifnum\i<\lb@size@y\repeat
+}
+
+%% The cells for alive and dead states.
+\newbox\lc@deadbox
+\setbox\lc@deadbox=\hbox{\hskip 1pt\vrule height 8pt width .1pt\leaders\hrule height .1pt\hskip 7.8pt\llap{\raise 7.9pt\hbox{\leaders\hrule height .1pt\hskip 7.8pt}}\vrule height 8pt width .1pt\hskip 1pt\relax}
+\newbox\lc@alivebox
+\setbox\lc@alivebox=\hbox{\hskip 1pt\vrule height 8pt width 8pt\hskip 1pt}
+\def\lc@dead{\unhcopy\lc@deadbox}
+\def\lc@alive{\unhcopy\lc@alivebox}
+
+%% Loops over board creating empty (dead) cells.
+\def\lb@init{%
+    \lb@loop{\global\expandafter\let\csname lc@\the\i;\the\j\endcsname\lc@dead}{}%
+}

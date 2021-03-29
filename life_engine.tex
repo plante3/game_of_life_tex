@@ -1,0 +1,78 @@
+%% ## The Game of Life Engine. ##
+%% Display board.
+\def\lb@print{\lb@loop{\csname lc@\the\i;\the\j\endcsname}{\endgraf}}
+
+\def\lb@print@next{%
+    \lb@diff=0
+    \lb@loop{%
+        \expandafter\ifx\csname lc@\the\i;\the\j\expandafter\endcsname\csname lc@next@\the\i;\the\j\endcsname
+        \else
+            \global\advance\lb@diff1
+        \fi
+        \global\expandafter\let\csname lc@\the\i;\the\j\expandafter\endcsname\csname lc@next@\the\i;\the\j\endcsname
+        \csname lc@\the\i;\the\j\endcsname}{\endgraf}%
+    \ifnum\lb@diff=0
+        \lb@stop
+    \fi
+}
+
+%% ## Update processing. ##
+\def\lb@tick{\relax\lb@loop{\lc@update}{}}
+\def\lc@update{%
+    \expandafter\ifx\csname lc@\the\i;\the\j\endcsname\lc@alive
+        \lc@update@alive
+    \else
+        \lc@update@dead
+    \fi
+}
+
+%% Offset the "cursor" by specified coordinates, checking if an alive cell exists.
+\def\lc@check@numalive@peek#1#2{%
+    \begingroup
+        \advance\i#1\advance\j#2
+        \expandafter\ifx\csname lc@\the\i;\the\j\endcsname\lc@alive
+            \global\advance\k1\relax
+        \fi
+    \endgroup
+}
+%% Count the number of neighbours alive.
+\def\lc@check@numalive{%
+    \k=0\relax
+    \lc@check@numalive@peek{1}{0}%
+    \lc@check@numalive@peek{1}{1}%
+    \lc@check@numalive@peek{0}{1}%
+    \lc@check@numalive@peek{-1}{1}%
+    \lc@check@numalive@peek{-1}{0}%
+    \lc@check@numalive@peek{-1}{-1}%
+    \lc@check@numalive@peek{0}{-1}%
+    \lc@check@numalive@peek{1}{-1}%
+}
+
+\def\lc@update@alive{%
+    \lc@check@numalive
+    \ifnum\k=2
+        \lc@update@to@alive
+    \else
+        \ifnum\k=3
+            \lc@update@to@alive
+        \else
+            \lc@update@to@dead
+        \fi
+    \fi
+}
+\def\lc@update@dead{%
+    \lc@check@numalive
+    \ifnum\k=3
+        \lc@update@to@alive
+    \else
+        \lc@update@to@dead
+    \fi
+}
+\def\lc@update@to@dead{\global\expandafter\let\csname lc@next@\the\i;\the\j\endcsname\lc@dead}
+\def\lc@update@to@alive{\global\expandafter\let\csname lc@next@\the\i;\the\j\endcsname\lc@alive}
+
+%% Halts processing.
+\def\lb@stop{%
+    \errmessage{All life ceased after iteration \the\lb@iter.}
+    \let\lb@forw@once@\lb@forw@once\let\lb@forw@once\empty
+}
