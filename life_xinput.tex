@@ -1,0 +1,53 @@
+%% ## Experimental module for parsing RLE-format encoded patterns. ##
+%% Catcode changes (# and $ denote info-lines and pattern-EOLs respectively).
+\catcode`\#=\active \catcode`\$=\active \catcode`\+=6\relax
+
+\def^^d{\endgraf}
+
+\def\gameinput+1{\catcode`\^^M=\active\input+1\catcode`\^^M=5\relax}
+
+%% Every newline matters, proceed with caution.
+\catcode`\^^M=\active\relax%
+\def^^M{\futurelet\next\l@input@parse@header}%
+%% Detects header line.
+\def\l@input@parse@header{%
+    \ifx\next x%
+        \expandafter\l@input@header%
+    \fi%
+}%
+%% Scans for header directives. Returns EOL to its usual catcode. Starts the body processing.
+\def\l@input@header+1^^M{\l@input@header@parse+1, @END, \catcode`\^^M=5\relax}%
+\def\l@input@header@parse@end{@END}%
+%% Spaces matter.
+\def\l@input@header@parse+1, {%
+    \def\next{+1}%
+    \ifx\l@input@header@parse@end\next%
+        \let\next\relax%
+    \else%
+        \l@input@attrib+1;%
+        \let\next\l@input@header@parse%
+    \fi\next%
+}%
+%% Sets attributes for the run.
+%% Spaces matter (again).
+\def\l@input@attrib+1 = +2;{\expandafter\def\csname l@attrib@+1\endcsname{+2}}%
+%% Is it a title? Is it a comment (description)? Do nothing otherwise.
+\long\def#+1 +2^^M{%
+    \ifnum\uccode`N=\uccode`+1\relax%
+        \def\l@attrib@name{+2}%
+        \else%
+            \ifnum\uccode`C=\uccode`+1\relax%
+            %% Append to description.
+            \edef\l@attrib@name{\l@attrib@name{} +2}
+        \fi%
+    \fi%
+^^M}%
+\catcode`\^^M=5\relax
+
+%% Write the actual body parsing ??? djaehdiuhsi
+
+\gameinput{gosper}
+
+\catcode`\#=6 \catcode`\$=3 \catcode`\+=12\relax
+
+\vfill\eject
