@@ -1,5 +1,5 @@
 # Game of Life in TeX
-An implementation of the finite state automata *The Game of Life* in the typesetting system TeX.
+An implementation of the finite state automata *Conway's Game of Life* in the typesetting system TeX.
 
 ### To-do list:
 - [ ] [Ongoing] Support parsing of the [*RLE* format](https://www.conwaylife.com/wiki/Run_Length_Encoded).
