@@ -6,7 +6,7 @@
 
 % Avoids tokenization.
 \def\gameinput{\lb@setup\catcode`\#=\active\catcode`\$=\active\catcode`\^^M=\active\activatedigits\stringdigits\@gameinput}
-\def\@gameinput+1{+1\catcode`\^^M=5\relax}
+\def\@gameinput+1{+1\catcode`\#=6\catcode`\$=3\catcode`\^^M=5\relax}
 
 %% ## Header Parsing. ##
 %% Every newline matters, proceed with caution.
@@ -101,6 +101,7 @@
 
 \l@input@body@parse@setup
 
+    \catcode`\$=\active
     {\tt24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4b
     obo$10bo5bo7bo$11bo3bo$12b2o}
 
