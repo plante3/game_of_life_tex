@@ -4,7 +4,7 @@ An implementation of the finite state automata *The Game of Life* in the typeset
 ### To-do list:
 - [ ] Support handling of the [generalized life](https://en.wikipedia.org/wiki/Life-like_cellular_automaton#Notation_for_rules).
 - [ ] Randomized setup.
-- [ ] Support parsing of the *RLE* format.
+- [ ] Support parsing of the [*RLE* format](https://www.conwaylife.com/wiki/Run_Length_Encoded).
 - [ ] Implement a toroidal array.
 
 ### Compilation
