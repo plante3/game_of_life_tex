@@ -11,7 +11,7 @@
 }
 
 %% Check for optional argument.
-\def\game{\title\futurelet\next\x@game}
+\def\game{\futurelet\next\x@game}
 \def\x@game{%
     \ifx[\next
         \expandafter\@game
@@ -20,9 +20,10 @@
     \fi
 }
 \def\@game[#1,#2]#3{%
-    \let\lb@forw@once\lb@forw@once@
-    \lb@iter=0\lb@size@x=#1\lb@size@y=#2%
-    \lb@init\relax\game@parse#3;@END;%
+    \lb@setup\let\lb@forw@once\lb@forw@once@
+    \title
+    \lb@size@x=#1\lb@size@y=#2%
+    \lb@init\game@parse#3;@END;%
 }
 \def\@@game#1{\@game[47,60]{#1}}
 
