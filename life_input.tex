@@ -22,29 +22,23 @@
 \def\@game[#1,#2]#3{%
     \let\lb@forw@once\lb@forw@once@
     \lb@iter=0\lb@size@x=#1\lb@size@y=#2%
-    \lb@init\relax\game@parse#3,@END,%
+    \lb@init\relax\game@parse#3;@END;%
 }
 \def\@@game#1{\@game[47,60]{#1}}
 
 %% Parse a list of input coordinates separated by commas.
 \def\game@parse@end{@END}
-\def\game@parse#1,{%
+\def\game@parse#1;{%
     \def\next{#1}%
     \ifx\game@parse@end\next
         \let\next\lb@print
     \else
-        \lb@conv#1/
+        \lb@place#1/
         \let\next\game@parse
     \fi\next
 }
-%% Convert from user input (alphabet) to numbers.
-\def\lb@conv#1#2/{%
-    \p=`#2\advance\p-96\relax
-    \t=`#1\advance\t-96\relax
-    \lb@place\p/\t/
-}
 %% Place (make alive) cell at input coordinate.
-\def\lb@place#1/#2/{\begingroup
-    \i=#1\j=#2
+\def\lb@place#1,#2/{\begingroup
+    \i=#2\j=#1
     \global\expandafter\let\csname lc@\the\i;\the\j\endcsname\lc@alive
 \endgroup}
