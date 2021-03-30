@@ -5,13 +5,19 @@
 \newcount\lb@size@x \newcount\lb@size@y \newcount\lb@iter \newcount\lb@diff
 \lb@size@x=47       \lb@size@y=60       \lb@iter=0        \lb@diff=0\relax
 
-\def\lb@setup{%
+\newcount\l@attrib@x \newcount\l@attrib@y \newcount\l@tmpx \newcount\l@tmpy
+         \l@attrib@x=0        \l@attrib@y=0        \l@tmpx=0        \l@tmpy=0
+
+\def\l@setup{%
     \global\let\l@attrib@name\empty
     \global\let\l@attrib@desc\empty
-    \global\let\l@attrib@eed\empty
+    \global\let\l@attrib@seed\empty
+    \global\t=1\global\p=1\global\h=1
+    \global\l@tmpx=0\global\l@tmpy=0
+    \global\lb@size@x=47\global\lb@size@y=60\global\lb@iter=0
+    \global\l@attrib@x=0\global\l@attrib@y=0\relax
     \global\let\do\empty
-    \global\lb@iter=0\relax
-}\lb@setup
+}\l@setup
 
 %% ## Title. ##
 \font\magtensc=cmcsc10 scaled 1200
