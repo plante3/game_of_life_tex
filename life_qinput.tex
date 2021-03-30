@@ -33,7 +33,7 @@
     \fi
 }
 %% Pass input down.
-\def\l@rule@parse#1/#2;{
+\def\l@rule@parse B#1/S#2;{
     \l@rule@parse@alive#1;\l@rule@parse@dead#2;
 }
 \def\l@rule@parse@setup@alive@#1{%
@@ -52,12 +52,12 @@
 
 \def\l@rule@parse@alive#1;{%
     \def\l@rule@B{#1}
-    \begingroup\activatedigits\l@rule@parse@setup@alive
+    \begingroup\activatedigits\l@rule@parse@setup@dead
     \expandafter\scantokens\expandafter{\l@rule@B}\endgroup
 }
 \def\l@rule@parse@dead#1;{%
     \def\l@rule@S{#1}
-    \begingroup\activatedigits\l@rule@parse@setup@dead
+    \begingroup\activatedigits\l@rule@parse@setup@alive
     \expandafter\scantokens\expandafter{\l@rule@S}\endgroup
 }
 

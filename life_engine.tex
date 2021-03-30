@@ -17,7 +17,7 @@
 }
 
 %% ## Update processing. ##
-\def\lb@tick{\relax\lb@loop{\lc@update}{}}
+\def\lb@tick{\lb@loop{\lc@update}{}}
 \def\lc@update{%
     \expandafter\ifx\csname lc@\the\i;\the\j\endcsname\lc@alive
         \lc@update@alive

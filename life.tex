@@ -1,6 +1,9 @@
 %%
 %% # Conway's Game of Life - a (finite) implementation in TeX. #
 %%
+%%      Please follow the github repository at
+%%      https://github.com/Planted363/Game_of_Life-in-TeX.
+%%
 
 \catcode`@=11\relax
 
@@ -14,14 +17,29 @@
 
 \catcode`@=12\relax
 
+%% Paste the pattern here (RLE format).
+%% URLs somehow break it, so just cut them out for now while I try to fix it.
+%% The formatting is somewhat strict, spaces are necessary and the rule can only be specified like B36/S23.
+\gameinput{
+    #N Gosper glider gun
+    #O Bill Gosper
+    #C A true period 30 glider gun.
+    x = 36, y = 9, rule = B3/S23
+    24bo11b$22bobo11b$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o14b$2o8b
+    o3bob2o4bobo11b$10bo5bo7bo11b$11bo3bo20b$12b2o!
+}
+%% How many iterations to generate.
+\gameforw{40}
+
 \gameinput{
     #N Replicator
     #O Nathan Thompson
-    #C A replicator for the HighLife rule (23/36).
-    x = 5, y = 5, rule = 23/36
+    #C A replicator for the HighLife rule.
+    x = 5, y = 5, rule = B36/S23
     2b3o$bo2bo$o3bo$o2bob$3o!
 }
+\gameforw{40}
 
-\gameforw{30}
+
 
 \bye
