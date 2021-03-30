@@ -5,12 +5,24 @@
 \def^^d{\endgraf}
 
 % Avoids tokenization.
-\def\gameinput{\lb@setup\catcode`\#=\active\catcode`\$=\active\catcode`\^^M=\active\activatedigits\stringdigits\@gameinput}
+\def\gameinput{\lb@setup\catcode`\#=\active\catcode`\$=\active\catcode`\^^M=\active\@gameinput}
 \def\@gameinput+1{+1\catcode`\#=6\catcode`\$=3\catcode`\^^M=5\relax}
 
 %% ## Header Parsing. ##
 %% Every newline matters, proceed with caution.
 \catcode`\^^M=\active\relax%
+%% Is it a title? Is it a comment (description)? Do nothing otherwise.
+\long\def#+1 +2^^M{%
+    \ifnum\uccode`N=\uccode`+1\relax%
+        \def\l@attrib@name{+2}%
+        \else%
+            \ifnum\uccode`C=\uccode`+1\relax%
+            %% Append to description.
+            \edef\l@attrib@desc{\l@attrib@desc\ +2}
+        \fi%
+    \fi%
+^^M}%
+%
 \def^^M{\futurelet\next\l@input@header@parse@}%
 %% Detects header line.
 \def\l@input@header@parse@{%
@@ -19,7 +31,7 @@
     \fi%
 }%
 %% Scans for header directives. Returns EOL to its usual catcode. Starts the body processing.
-\def\l@input@header+1^^M{\l@input@header@parse+1, @END, \let^^M\empty\l@input@body@parse}%
+\def\l@input@header+1^^M{\l@input@header@parse+1, @END, \l@input@header@make\l@input@body@parse}%
 \def\l@input@header@parse@end{@END}%
 %% Spaces matter.
 \def\l@input@header@parse+1, {%
@@ -34,22 +46,18 @@
 %% Sets attributes for the run.
 %% Spaces matter (again).
 \def\l@input@attrib+1 = +2;{\expandafter\def\csname l@attrib@+1\endcsname{+2}}%
-%% Is it a title? Is it a comment (description)? Do nothing otherwise.
-\long\def#+1 +2^^M{%
-    \ifnum\uccode`N=\uccode`+1\relax%
-        \def\l@attrib@name{+2}%
-        \else%
-            \ifnum\uccode`C=\uccode`+1\relax%
-            %% Append to description.
-            \edef\l@attrib@name{\l@attrib@name\ +2}
-        \fi%
-    \fi%
-^^M}%
 %
 \catcode`\^^M=5
 
+%% Prints header lines.
+\def\l@input@header@make{%
+    \line{\hskip -2em\magtensc Conway's Game of Life. \hss \tt Iteration \the\lb@iter}\vskip 2ex
+    \line{\magtenrm \l@attrib@name \hss \minit \l@attrib@desc}\vskip 2ex
+}
+
 %% ## Body Parsing. ##
-\def\l@input@body@parse+1!{\begingroup\scantokens{\l@input@body@parse@setup+1}\endgroup}
+%% Unfreezes catcodes
+\def\l@input@body@parse+1!{\begingroup\let\ndgrp\endgroup\scantokens{\catcode`\^^M=9\activatedigits\l@input@body@parse@setup\l@input@body@parse@setup@cells+1}\ndgrp}
 
 \def\dodigits{\do0\do1\do2\do3\do4\do5\do6\do7\do8\do9}
 
@@ -67,28 +75,33 @@
 }
 \def\l@input@body@parse@setup{\let\do\l@input@body@parse@setup@ \dodigits}
 
-%% Here we write \aftergroup+1 instead of saving the argument first because it is automatically assumed to be a single token.
 \def\l@input@body@parse@repeat+1{%
+    \def\saved{+1}%
     \begingroup\aftergroup\def\aftergroup\next\aftergroup{%
-    \loop\aftergroup+1\advance\p1\ifnum\p<\h\repeat\aftergroup}\aftergroup\next
+    \loop\aftergroup\saved\advance\p1\ifnum\p<\h\repeat\aftergroup}\aftergroup\next
     \endgroup\activatedigits%
 }
-
-\def\@stringdigits+1{%
-    \begingroup
-        \lccode`\~=`+1\relax
-    \lowercase{\endgroup\def~}{\string+1}
+%% The definitions must be wraped in a group because when scanning for digits,
+%% TeX expands them once (and stops because it's not a digit),
+%% resulting in the argument not being absorbed properly.
+\def\l@input@body@parse@setup@cells{%
+    \scantokens{\def\act@{{\lc@dead}}\def\act@@{{\lc@alive}}
+    \catcode`b=\active\letb\act@
+    \catcode`o=\active\leto\act@@}
 }
-\def\stringdigits{\let\do\@stringdigits \dodigits}
 
 \gameinput{%
-    #N Gosper glider gun
-    #C This was the first gun discovered.
-    #C As its name suggests, it was discovered by Bill Gosper.
-    x = 36, y = 9, rule = B3/S23
-
-    24bo$22bobo$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o$2o8bo3bob2o4b
-    obo$10bo5bo7bo$11bo3bo$12b2o!
+    #N Max
+    #C A spacefiller that fills space with zebra stripes.
+    #C By Tim Coe.
+    x = 27, y = 27, rule = B3/S23
+    18bo8b$17b3o7b$12b3o4b2o6b$11bo2b3o2bob2o4b$10bo3bobo2bobo5b$10bo4bobo
+    bobob2o2b$12bo4bobo3b2o2b$4o5bobo4bo3bob3o2b$o3b2obob3ob2o9b2ob$o5b2o
+    5bo13b$bo2b2obo2bo2bob2o10b$7bobobobobobo5b4o$bo2b2obo2bo2bo2b2obob2o
+    3bo$o5b2o3bobobo3b2o5bo$o3b2obob2o2bo2bo2bob2o2bob$4o5bobobobobobo7b$
+    10b2obo2bo2bob2o2bob$13bo5b2o5bo$b2o9b2ob3obob2o3bo$2b3obo3bo4bobo5b4o
+    $2b2o3bobo4bo12b$2b2obobobobo4bo10b$5bobo2bobo3bo10b$4b2obo2b3o2bo11b$
+    6b2o4b3o12b$7b3o17b$8bo!
 }
 
 %\l@attrib@desc
