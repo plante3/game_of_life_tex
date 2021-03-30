@@ -13,7 +13,7 @@
 }
 % Avoids tokenization by splitting into two macros.
 \def\@gameinput[+1,+2]{\l@setup\lb@size@x=+1\lb@size@y=+2\relax\catcode`@=11\catcode`\#=\active\catcode`\^^M=\active\gameinput@}
-\def\@@gameinput{\@gameinput[47,60]}
+\def\@@gameinput{\@gameinput[\lb@size@xdefault,\lb@size@ydefault]}
 \def\gameinput@+1{+1\catcode`@=12\catcode`\#=6\catcode`\$=3\catcode`\^^M=5\lb@print\vfill\eject}
 
 %% ## Header Parsing. ##
@@ -39,7 +39,7 @@
     \fi%
 }%
 %% Scans for header directives. Starts the body processing.
-\def\l@input@header+1^^M{\l@input@header@parse+1, @END, \l@input@header@make\l@input@body@parse}%
+\def\l@input@header+1^^M{\l@input@header@parse+1, @END, \l@rule@init\l@input@header@make\l@input@body@parse}%
 \def\l@input@header@parse@end{@END}%
 %% Spaces matter.
 \def\l@input@header@parse+1, {%
@@ -71,7 +71,7 @@
 
 %% Prints header lines.
 \def\l@input@header@make{%
-    \line{\hskip -2em\magtensc Conway's Game of Life. \hss \tt Iteration \the\lb@iter}\vskip 2ex
+    \line{\hskip -2em\magtensc Conway's Game of Life. \hss \tt Rule B\l@rule@B/S\l@rule@S, Iteration \the\lb@iter}\vskip 2ex
     \line{\magtenrm \l@attrib@name \hss \minit \l@attrib@desc}\vskip 2ex
 }
 

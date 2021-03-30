@@ -50,22 +50,50 @@
 
 \def\lc@update@alive{%
     \lc@check@numalive
-    \ifnum\k=2
-        \lc@update@to@alive
+    \ifcase\k
+        \csname lc@update@alive@hook@0\endcsname
+    \or
+        \csname lc@update@alive@hook@1\endcsname
+    \or
+        \csname lc@update@alive@hook@2\endcsname
+    \or
+        \csname lc@update@alive@hook@3\endcsname
+    \or
+        \csname lc@update@alive@hook@4\endcsname
+    \or
+        \csname lc@update@alive@hook@5\endcsname
+    \or
+        \csname lc@update@alive@hook@6\endcsname
+    \or
+        \csname lc@update@alive@hook@7\endcsname
+    \or
+        \csname lc@update@alive@hook@8\endcsname
     \else
-        \ifnum\k=3
-            \lc@update@to@alive
-        \else
-            \lc@update@to@dead
-        \fi
+        \errmessage{Undefined behavior!}
     \fi
 }
 \def\lc@update@dead{%
     \lc@check@numalive
-    \ifnum\k=3
-        \lc@update@to@alive
+    \ifcase\k
+        \csname lc@update@dead@hook@0\endcsname
+    \or
+        \csname lc@update@dead@hook@1\endcsname
+    \or
+        \csname lc@update@dead@hook@2\endcsname
+    \or
+        \csname lc@update@dead@hook@3\endcsname
+    \or
+        \csname lc@update@dead@hook@4\endcsname
+    \or
+        \csname lc@update@dead@hook@5\endcsname
+    \or
+        \csname lc@update@dead@hook@6\endcsname
+    \or
+        \csname lc@update@dead@hook@7\endcsname
+    \or
+        \csname lc@update@dead@hook@8\endcsname
     \else
-        \lc@update@to@dead
+        \errmessage{Undefined behavior!}
     \fi
 }
 \def\lc@update@to@dead{\global\expandafter\let\csname lc@next@\the\i;\the\j\endcsname\lc@dead}

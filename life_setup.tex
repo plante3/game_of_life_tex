@@ -3,18 +3,43 @@
          \i=1        \j=1        \k=1        \t=1        \p=1        \h=1
 
 \newcount\lb@size@x \newcount\lb@size@y \newcount\lb@iter \newcount\lb@diff
-\lb@size@x=47       \lb@size@y=60       \lb@iter=0        \lb@diff=0\relax
+         \lb@size@x=47       \lb@size@y=60       \lb@iter=0        \lb@diff=0\relax
 
 \newcount\l@attrib@x \newcount\l@attrib@y \newcount\l@tmpx \newcount\l@tmpy
          \l@attrib@x=0        \l@attrib@y=0        \l@tmpx=0        \l@tmpy=0
 
+\newcount\lb@size@xdefault \newcount\lb@size@ydefault
+         \lb@size@xdefault=47       \lb@size@ydefault=60
+
 \def\l@setup{%
+    \global\expandafter\let\csname lc@update@alive@hook@0\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@alive@hook@1\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@alive@hook@2\endcsname\lc@update@to@alive
+    \global\expandafter\let\csname lc@update@alive@hook@3\endcsname\lc@update@to@alive
+    \global\expandafter\let\csname lc@update@alive@hook@4\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@alive@hook@5\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@alive@hook@6\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@alive@hook@7\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@alive@hook@8\endcsname\lc@update@to@dead
+    %
+    \global\expandafter\let\csname lc@update@dead@hook@0\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@dead@hook@1\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@dead@hook@2\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@dead@hook@3\endcsname\lc@update@to@alive
+    \global\expandafter\let\csname lc@update@dead@hook@4\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@dead@hook@5\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@dead@hook@6\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@dead@hook@7\endcsname\lc@update@to@dead
+    \global\expandafter\let\csname lc@update@dead@hook@8\endcsname\lc@update@to@dead
+    %
+    \global\def\l@rule@B{23}
+    \global\def\l@rule@S{3}
     \global\let\l@attrib@name\empty
     \global\let\l@attrib@desc\empty
     \global\let\l@attrib@seed\empty
     \global\t=1\global\p=1\global\h=1
     \global\l@tmpx=0\global\l@tmpy=0
-    \global\lb@size@x=47\global\lb@size@y=60\global\lb@iter=0
+    \global\lb@size@x=\lb@size@xdefault\global\lb@size@y=\lb@size@ydefault\global\lb@iter=0
     \global\l@attrib@x=0\global\l@attrib@y=0\relax
     \global\let\do\empty
 }\l@setup
@@ -42,7 +67,7 @@
 
 %% The cells for alive and dead states.
 \newbox\lc@deadbox
-\setbox\lc@deadbox=\hbox{\hskip 1pt\vrule height 8pt width .1pt\leaders\hrule height .1pt\hskip 7.8pt\llap{\raise 7.9pt\hbox{\leaders\hrule height .1pt\hskip 7.8pt}}\vrule height 8pt width .1pt\hskip 1pt\relax}
+\setbox\lc@deadbox=\hbox{\hskip 1pt\vrule height 8pt width .1pt\leaders\hrule height .1pt\hskip 7.8pt\llap{\raise 7.9pt\hbox{\leaders\hrule height .1pt\hskip 7.8pt}}\vrule height 8pt width .1pt\hskip 1pt}
 \newbox\lc@alivebox
 \setbox\lc@alivebox=\hbox{\hskip 1pt\vrule height 8pt width 8pt\hskip 1pt}
 \def\lc@dead{\unhcopy\lc@deadbox}

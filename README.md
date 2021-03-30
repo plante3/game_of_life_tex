@@ -6,8 +6,8 @@ An implementation of the finite state automata *Conway's Game of Life* in the ty
 alt="Demo." width="240" height="180" border="10" /></a>
 
 ### To-do list:
-- [x] (30-3-2021) ~~Support parsing of the [*RLE* format](https://www.conwaylife.com/wiki/Run_Length_Encoded)~~.
-- [ ] Support handling of the [generalized life](https://en.wikipedia.org/wiki/Life-like_cellular_automaton#Notation_for_rules).
+- [x] (2021-3-30) ~~Support parsing of the [*RLE* format](https://www.conwaylife.com/wiki/Run_Length_Encoded)~~.
+- [x] (2021-3-30) ~~Support handling of the [generalized life](https://en.wikipedia.org/wiki/Life-like_cellular_automaton#Notation_for_rules)~~.
 - [ ] Randomized setup.
 - [ ] Implement a toroidal array.
 

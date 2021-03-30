@@ -9,17 +9,56 @@
             \errmessage{Sorry, your pattern is too large.}%
         \fi
     \fi
-    %% We choose the starting left corner.
-    %% x start = ( \lb@size@x - \l@attrib@x ) / 2
+    %% We choose the starting left corner to place the pattern (centered).
+    %% x start = ( \lb@size@x - \l@attrib@x ) / 2 + 1
     \l@tmpx=\lb@size@x
     \advance\l@tmpx -\l@attrib@x
     \divide\l@tmpx2
-    %% y start = ( \lb@size@y - \l@attrib@y ) / 2
+    \advance\l@tmpx1
+    %% y start = ( \lb@size@y - \l@attrib@y ) / 2 + 1
     \l@tmpy=\lb@size@y
     \advance\l@tmpy -\l@attrib@y
     \divide\l@tmpy2
+    \advance\l@tmpy1
     \global\i=\l@tmpy\global\j=\l@tmpx
     \global\l@tmpy=\i\global\l@tmpx=\j
+}
+%% Defaults to B23/S3 if not specified.
+\def\l@rule@init{%
+    \begingroup\expandafter\expandafter\expandafter\endgroup
+    \expandafter\ifx\csname l@attrib@rule\endcsname\relax
+        \def\l@rule@B{23}\def\l@rule@S{3}
+    \else
+        \expandafter\l@rule@parse\l@attrib@rule;
+    \fi
+}
+%% Pass input down.
+\def\l@rule@parse#1/#2;{
+    \l@rule@parse@alive#1;\l@rule@parse@dead#2;
+}
+\def\l@rule@parse@setup@alive@#1{%
+    \begingroup
+        \lccode`\~=`#1\relax
+    \lowercase{\endgroup\def~}{\global\expandafter\let\csname lc@update@alive@hook@#1\endcsname\lc@update@to@alive}
+}
+\def\l@rule@parse@setup@alive{\let\do\l@rule@parse@setup@alive@ \dodigits}
+
+\def\l@rule@parse@setup@dead@#1{%
+    \begingroup
+        \lccode`\~=`#1\relax
+    \lowercase{\endgroup\def~}{\global\expandafter\let\csname lc@update@dead@hook@#1\endcsname\lc@update@to@alive}
+}
+\def\l@rule@parse@setup@dead{\let\do\l@rule@parse@setup@dead@ \dodigits}
+
+\def\l@rule@parse@alive#1;{%
+    \def\l@rule@B{#1}
+    \begingroup\activatedigits\l@rule@parse@setup@alive
+    \expandafter\scantokens\expandafter{\l@rule@B}\endgroup
+}
+\def\l@rule@parse@dead#1;{%
+    \def\l@rule@S{#1}
+    \begingroup\activatedigits\l@rule@parse@setup@dead
+    \expandafter\scantokens\expandafter{\l@rule@S}\endgroup
 }
 
 \def\lc@place@dead{%
