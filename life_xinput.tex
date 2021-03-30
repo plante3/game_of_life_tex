@@ -19,14 +19,18 @@
 %% ## Header Parsing. ##
 %% Every newline matters, proceed with caution.
 \catcode`\^^M=\active\relax%
-%% Is it a title? Is it a comment (description)? Do nothing otherwise.
+%% Is it a title? Is it a comment (description)? Is it the author? Do nothing otherwise.
 \long\def#+1 +2^^M{%
     \ifnum\uccode`N=\uccode`+1\relax%
         \def\l@attrib@name{+2}%
-        \else%
-            \ifnum\uccode`C=\uccode`+1\relax%
+    \else%
+        \ifnum\uccode`C=\uccode`+1\relax%
             %% Append to description.
-            \edef\l@attrib@desc{\l@attrib@desc\ +2}
+            \edef\l@attrib@desc{\l@attrib@desc\ +2}%
+        \else%
+            \ifnum\uccode`O=\uccode`+1\relax%
+                \def\l@attrib@auth{+2}%
+            \fi%
         \fi%
     \fi%
 ^^M}%
@@ -72,7 +76,14 @@
 %% Prints header lines.
 \def\l@input@header@make{%
     \line{\hskip -2em\magtensc Conway's Game of Life. \hss \tt Rule B\l@rule@B/S\l@rule@S, Iteration \the\lb@iter}\vskip 2ex
-    \line{\magtenrm \l@attrib@name \hss \minit \l@attrib@desc}\vskip 2ex
+    \line{\magtenrm \l@attrib@name\ \l@input@header@author \hss \minit \l@attrib@desc}\vskip 2ex
+}
+\def\l@input@header@author{
+    \begingroup\expandafter\expandafter\expandafter\endgroup
+    \expandafter\ifx\csname l@attrib@auth\endcsname\relax
+    \else
+        {\magtensc by \rm\l@attrib@auth}
+    \fi
 }
 
 %% ## Body Parsing. ##
