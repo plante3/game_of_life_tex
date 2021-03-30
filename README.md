@@ -10,6 +10,7 @@ Download the latest release (`GoL-TeX-V1.1.zip`) and extract the files to a fold
 ```
 pdftex life.tex
 ```
+Sample `.pdf` and `.log` files are given for reference.
 
 ### To-do List:
 - [x] (2021-3-30) ~~Support parsing of the [*RLE* format](https://www.conwaylife.com/wiki/Run_Length_Encoded)~~.
