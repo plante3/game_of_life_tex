@@ -2,7 +2,6 @@
 An implementation of the finite state automata *Conway's Game of Life* in the typesetting system TeX.
 
 ### What?
-See thi video:
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=cNi5v6iWGmI" target="_blank"><img src="http://img.youtube.com/vi/cNi5v6iWGmI/0.jpg" 
 alt="Demo." width="240" height="180" border="10" /></a>
 
