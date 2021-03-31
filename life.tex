@@ -18,11 +18,6 @@
 
 \catcode`@=12\relax
 
-%% Paste the pattern here (RLE format) and how many iterations to generate.
-%% The formatting is somewhat strict, spaces cannot be omitted
-%% and the rule may only be specified in the format `B<digits>/S<digits>'
-
-%% A typical pattern with standard rules.
 \gameinput{
     #N Gosper Glider Gun
     #C A true period 30 glider gun.
@@ -31,24 +26,5 @@
     o3bob2o4bobo11b$10bo5bo7bo11b$11bo3bo20b$12b2o!
 }{30}
 
-%% A replicator in the Highlife rule.
-\gameinput{
-    #N Replicator
-    #O Nathan Thompson
-    #C A replicator for the HighLife rule.
-    x = 5, y = 5, rule = B36/S23
-    2b3o$bo2bo$o3bo$o2bob$3o!
-}{30}
-
-%% A spaceship in a nonstandard rule (Day & Night)
-\gameinput{
-    x = 29, y = 24, rule = B3678/S34678
-    8bo$7bob2o10b2o$6b2obobo6bob2o$6bo2bobo2b2o3bo2bo$2bo4b2o2b2obob3ob3o$bobob2o
-    2b2o2bo2bo2bob3o$b2o2bobob3o5bob3obo$o3bob4o2b3o2bobo2b2o3bo$2obob2o3b5obo3b
-    2o2b2obo$2b2o3b11o6b3o$b2o4b12o5bobobo$2obo3bob12o4b3o$2obo3bob12o4b3o$b2o4b
-    12o5bobobo$2b2o3b11o6b3o$2obob2o3b5obo3b2o2b2obo$o3bob4o2b3o2bobo2b2o3bo$b2o
-    2bobob3o5bob3obo$bobob2o2b2o2bo2bo2bob3o$2bo4b2o2b2obob3ob3o$6bo2bobo2b2o3bo
-    2bo$6b2obobo6bob2o$7bob2o10b2o$8bo!
-}{30}
 
 \bye

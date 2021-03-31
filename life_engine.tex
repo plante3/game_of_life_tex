@@ -33,7 +33,7 @@
 %% Offset the "cursor" by specified coordinates, checking if an alive cell exists.
 \def\lc@check@numalive@peek#1#2{%
     \begingroup
-        \advance\i#1\advance\j#2
+        \l@modadvance{\i}{\lb@size@y}{#1}\l@modadvance{\j}{\lb@size@x}{#2}
         \expandafter\ifx\csname lc@\the\i;\the\j\endcsname\lc@alive
             \global\advance\k1\relax
         \fi
@@ -102,17 +102,3 @@
 }
 \def\lc@update@to@dead{\global\expandafter\let\csname lc@next@\the\i;\the\j\endcsname\lc@dead}
 \def\lc@update@to@alive{\global\expandafter\let\csname lc@next@\the\i;\the\j\endcsname\lc@alive}
-
-%% Debug function for logging update hooks' values
-\def\lc@update@hook@log{%
-    \begingroup
-        \h=0\loop
-            \immediate\write16{Alive hook \#\the\h: \expandafter\meaning\csname lc@update@alive@hook@\the\h\endcsname.}
-            \advance\h1
-        \ifnum\h<9\repeat
-        \h=0\loop
-            \immediate\write16{Dead hook \#\the\h: \expandafter\meaning\csname lc@update@dead@hook@\the\h\endcsname.}
-            \advance\h1
-        \ifnum\h<9\repeat
-    \endgroup
-}

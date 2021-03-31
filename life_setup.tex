@@ -2,7 +2,7 @@
 
 %% ## Setup. ##
 \newcount\i \newcount\j \newcount\k \newcount\t \newcount\p \newcount\h 
-         \i=1        \j=1        \k=1        \t=1        \p=1        \h=1
+         \i=0        \j=0        \k=1        \t=1        \p=1        \h=1
 
 \newcount\lb@size@x \newcount\lb@size@y \newcount\lb@iter \newcount\lb@diff
          \lb@size@x=47       \lb@size@y=60       \lb@iter=0        \lb@diff=0
@@ -34,6 +34,7 @@
     \global\expandafter\let\csname lc@update@dead@hook@7\endcsname\lc@update@to@dead
     \global\expandafter\let\csname lc@update@dead@hook@8\endcsname\lc@update@to@dead
     %
+    \global\i=0\global\j=0
     \global\def\l@rule@B{23}
     \global\def\l@rule@S{3}
     \global\let\l@attrib@name\empty
@@ -111,4 +112,8 @@
     \else
         {\magtensc by \rm\l@attrib@auth}
     \fi
+}
+
+\def\l@modadvance#1#2#3{%
+    \advance#1 by #3
 }
