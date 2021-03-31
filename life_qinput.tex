@@ -1,3 +1,5 @@
+% !TEX root = life.tex
+
 %% ## The actual placement work after xinput. ##
 
 \def\lc@place@init{%
@@ -29,6 +31,10 @@
     \expandafter\ifx\csname l@attrib@rule\endcsname\relax
         \def\l@rule@B{23}\def\l@rule@S{3}
     \else
+        %% Clear default hook values.
+        \global\expandafter\let\csname lc@update@alive@hook@2\endcsname\lc@update@to@dead
+        \global\expandafter\let\csname lc@update@alive@hook@3\endcsname\lc@update@to@dead
+        \global\expandafter\let\csname lc@update@dead@hook@3\endcsname\lc@update@to@dead
         \expandafter\l@rule@parse\l@attrib@rule;
     \fi
 }
@@ -69,16 +75,5 @@
     \global\advance\j1\relax
 }
 \def\lc@place@break{%
-    \endgraf
     \global\j=\l@tmpx\global\advance\i1\relax
-}
-
-\def\lb@forw@once{\vfill\eject\advance\lb@iter1\l@input@header@make\lb@tick\lb@print@next}
-\let\lb@forw@once@\lb@forw@once
-\def\gameforw#1{%
-    \h=1\begingroup
-        \aftergroup\def\aftergroup\next\aftergroup{%
-        \loop\aftergroup\lb@forw@once\advance\h1\ifnum\h<#1\repeat
-        \aftergroup}%
-    \endgroup\next
 }

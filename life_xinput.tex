@@ -1,3 +1,5 @@
+% !TEX root = life.tex
+
 %% ## Parsing RLE-format encoded patterns (experimental). ##
 %% Catcode changes (# and $ denote info-lines and pattern-EOLs respectively).
 \catcode`\#=\active \catcode`\+=6\relax
@@ -14,7 +16,7 @@
 % Avoids tokenization by splitting into two macros.
 \def\@gameinput[+1,+2]{\l@setup\lb@size@x=+1\lb@size@y=+2\relax\catcode`@=11\catcode`\#=\active\catcode`\^^M=\active\gameinput@}
 \def\@@gameinput{\@gameinput[\lb@size@xdefault,\lb@size@ydefault]}
-\def\gameinput@+1{+1\catcode`@=12\catcode`\#=6\catcode`\$=3\catcode`\^^M=5\lb@print\vfill\eject}
+\def\gameinput@+1{+1\catcode`@=12\catcode`\#=6\catcode`\$=3\catcode`\^^M=5\lb@print\gameforw}
 
 %% ## Header Parsing. ##
 %% Every newline matters, proceed with caution.
@@ -38,12 +40,12 @@
 \def^^M{\futurelet\next\l@input@header@parse@}%
 %% Detects header line.
 \def\l@input@header@parse@{%
-    \ifx\next x%
+    \ifx x\next%
         \expandafter\l@input@header%
     \fi%
 }%
 %% Scans for header directives. Starts the body processing.
-\def\l@input@header+1^^M{\l@input@header@parse+1, @END, \l@rule@init\l@input@header@make\l@input@body@parse}%
+\def\l@input@header+1^^M{\l@input@header@parse+1, @END, \l@rule@init\l@input@body@parse}%
 \def\l@input@header@parse@end{@END}%
 %% Spaces matter.
 \def\l@input@header@parse+1, {%
@@ -72,19 +74,6 @@
 }%
 %
 \catcode`\^^M=5
-
-%% Prints header lines.
-\def\l@input@header@make{%
-    \line{\hskip -2em\magtensc Conway's Game of Life. \hss \tt Rule B\l@rule@B/S\l@rule@S, Iteration \the\lb@iter}\vskip 2ex
-    \line{\magtenrm \l@attrib@name\ \l@input@header@author \hss \minit \l@attrib@desc}\vskip 2ex
-}
-\def\l@input@header@author{
-    \begingroup\expandafter\expandafter\expandafter\endgroup
-    \expandafter\ifx\csname l@attrib@auth\endcsname\relax
-    \else
-        {\magtensc by \rm\l@attrib@auth}
-    \fi
-}
 
 %% ## Body Parsing. ##
 %% Unfreezes catcodes
@@ -119,7 +108,7 @@
 %% The placement work is passed to qinput.
 \def\l@input@body@parse@setup@cells{%
     \lc@place@init\scantokens{\def\act@{{\lc@place@dead}}\def\act@@{{\lc@place@alive}}
-    \catcode`\$=\active \def^^d{\lc@place@break}
+    \catcode`\$=\active \def^^d{{\lc@place@break}}
     \catcode`b=\active \letb\act@
     \catcode`o=\active \leto\act@@}
 }

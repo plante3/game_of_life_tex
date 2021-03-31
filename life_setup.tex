@@ -1,15 +1,17 @@
+
+
 %% ## Setup. ##
 \newcount\i \newcount\j \newcount\k \newcount\t \newcount\p \newcount\h 
          \i=1        \j=1        \k=1        \t=1        \p=1        \h=1
 
 \newcount\lb@size@x \newcount\lb@size@y \newcount\lb@iter \newcount\lb@diff
-         \lb@size@x=47       \lb@size@y=60       \lb@iter=0        \lb@diff=0\relax
+         \lb@size@x=47       \lb@size@y=60       \lb@iter=0        \lb@diff=0
 
 \newcount\l@attrib@x \newcount\l@attrib@y \newcount\l@tmpx \newcount\l@tmpy
          \l@attrib@x=0        \l@attrib@y=0        \l@tmpx=0        \l@tmpy=0
 
 \newcount\lb@size@xdefault \newcount\lb@size@ydefault
-         \lb@size@xdefault=47       \lb@size@ydefault=60
+         \lb@size@xdefault=47       \lb@size@ydefault=60\relax
 
 \def\l@setup{%
     \global\expandafter\let\csname lc@update@alive@hook@0\endcsname\lc@update@to@dead
@@ -36,12 +38,14 @@
     \global\def\l@rule@S{3}
     \global\let\l@attrib@name\empty
     \global\let\l@attrib@desc\empty
+    \global\let\l@attrib@seed\empty
     \global\let\l@attrib@auth\@undefined
     \global\let\l@attrib@rule\@undefined
     \global\t=1\global\p=1\global\h=1
     \global\l@tmpx=0\global\l@tmpy=0
     \global\lb@size@x=\lb@size@xdefault\global\lb@size@y=\lb@size@ydefault\global\lb@iter=0
     \global\l@attrib@x=0\global\l@attrib@y=0\relax
+    \global\let\lb@forw@once\lb@forw@once@
     \global\let\do\empty
 }\l@setup
 
@@ -77,4 +81,34 @@
 %% Loops over board creating empty (dead) cells.
 \def\lb@init{%
     \lb@loop{\global\expandafter\let\csname lc@\the\i;\the\j\endcsname\lc@dead}{}%
+}
+
+%% Generating iterations.
+\def\lb@forw@once{\lb@tick\lb@print@next}
+\let\lb@forw@once@\lb@forw@once
+\def\gameforw#1{%
+    \h=1\begingroup
+        \aftergroup\def\aftergroup\next\aftergroup{%
+        \loop\aftergroup\lb@forw@once\advance\h1\ifnum\h<#1\repeat
+        \aftergroup}%
+    \endgroup\next
+}
+
+%% Halts processing.
+\def\lb@stop{%
+    \errmessage{All activity ceased after iteration \the\lb@iter.}
+    \let\lb@forw@once\empty
+}
+
+%% Prints header lines.
+\def\l@input@header@make{%
+    \line{\hskip -2em\magtensc Conway's Game of Life. \hss \tt Change \the\lb@diff, Iteration \the\lb@iter, Rule B\l@rule@B/S\l@rule@S\rlap{.}}\vskip 2ex
+    \line{\magtenrm \l@attrib@name\ \l@input@header@author \hss \minit \l@attrib@desc}\vskip 2ex
+}
+\def\l@input@header@author{
+    \begingroup\expandafter\expandafter\expandafter\endgroup
+    \expandafter\ifx\csname l@attrib@auth\endcsname\relax
+    \else
+        {\magtensc by \rm\l@attrib@auth}
+    \fi
 }
