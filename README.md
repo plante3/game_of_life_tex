@@ -6,21 +6,21 @@ An implementation of the finite state automata *Conway's Game of Life* in the ty
 alt="Demo." width="240" height="180" border="10" /></a>
 
 ### Building & Usage:
-Download the latest release (`GoL-TeX-V1.1.zip`) and extract the files to a folder. Then run
+Download the latest release (`GoL-TeX-V1.2.zip`) and extract the files to a folder. Then run
 ```
 pdftex life.tex
 ```
-Patterns may be input with the `\gameinput` macro taking two arguments. The first is the main input and must strictly conform to the [*RLE* format](https://www.conwaylife.com/wiki/Run_Length_Encoded); the second is how many iterations to generate. An optional argument is allowed to control the size of the board (e.g. `\gameinput[10,20]{...}` initializes a game with width `10` and height `20`).
+Patterns may be input with the `\gameinput` macro taking two arguments. The first is the main input and must strictly conform to the [*RLE* format](https://www.conwaylife.com/wiki/Run_Length_Encoded); the second is how many iterations to generate. An optional argument is allowed to control the size of the board (e.g. `\gameinput[10,20]{...}{...}` initializes a game with width `10` and height `20`).
 
 Sample inputs are given below (as well as being provided with source)
-```
+```tex
 \gameinput{
     x = 36, y = 9, rule = B3/S23
     24bo11b$22bobo11b$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o14b$2o8b
     o3bob2o4bobo11b$10bo5bo7bo11b$11bo3bo20b$12b2o!
 }{50}
 
-%% A replicator in the Highlife rule.
+%% A replicator in the Highlife rule B36/S23.
 \gameinput{
     #N Replicator
     #O Nathan Thompson
