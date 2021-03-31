@@ -20,7 +20,7 @@ Sample inputs are given below (as well as being provided with source)
     o3bob2o4bobo11b$10bo5bo7bo11b$11bo3bo20b$12b2o!
 }{50}
 
-%% A replicator in the Highlife rule.
+%% A replicator in the Highlife rule B36/S23.
 \gameinput{
     #N Replicator
     #O Nathan Thompson
