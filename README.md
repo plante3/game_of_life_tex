@@ -6,7 +6,7 @@ An implementation of the finite state automata *Conway's Game of Life* in the ty
 alt="Demo." width="240" height="180" border="10" /></a>
 
 ### Building & Usage:
-Download the latest release (`GoL-TeX-V1.1.zip`) and extract the files to a folder. Then run
+Download the latest release (`GoL-TeX-V1.2.zip`) and extract the files to a folder. Then run
 ```
 pdftex life.tex
 ```
