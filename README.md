@@ -12,6 +12,8 @@ pdftex life.tex
 ```
 Patterns may be input with the `\gameinput` macro taking two arguments. The first is the main input and must strictly conform to the [*RLE* format](https://www.conwaylife.com/wiki/Run_Length_Encoded); the second is how many iterations to generate. An optional argument is allowed to control the size of the board (e.g. `\gameinput[10,20]{...}{...}` initializes a game with width `10` and height `20`). Attributes such as the name and author are set automatically, if provided.
 
+The rule can be set in the header line in B/S notation and defaults to B3/S23 if not specified.
+
 Sample inputs are given below (as well as being provided with source).
 ```tex
 \gameinput{
