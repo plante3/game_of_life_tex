@@ -1,3 +1,5 @@
 \tstex_modules
+\test-suite
 *.pdf
 *.log
+*.synctex.gz
