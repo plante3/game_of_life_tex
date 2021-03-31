@@ -1,8 +1,8 @@
 
 
 %% ## Setup. ##
-\newcount\i \newcount\j \newcount\k \newcount\t \newcount\p \newcount\h 
-         \i=0        \j=0        \k=1        \t=1        \p=1        \h=1
+\newcount\i \newcount\j \newcount\k \newcount\t \newcount\p \newcount\h \newcount\rem
+         \i=0        \j=0        \k=1        \t=1        \p=1        \h=1        \rem=1
 
 \newcount\lb@size@x \newcount\lb@size@y \newcount\lb@iter \newcount\lb@diff
          \lb@size@x=47       \lb@size@y=60       \lb@iter=0        \lb@diff=0
@@ -114,6 +114,14 @@
     \fi
 }
 
+%% TODO
 \def\l@modadvance#1#2#3{%
-    \advance#1 by #3
+    \advance#1 by#2
+    \advance#1 by#3
+    \rem=#1
+    \divide\rem by#2
+    \multiply\rem by#2
+    \multiply\rem by-1
+    \advance\rem by#1\relax
+    #1=\rem
 }

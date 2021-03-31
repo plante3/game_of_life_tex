@@ -33,7 +33,8 @@
 %% Offset the "cursor" by specified coordinates, checking if an alive cell exists.
 \def\lc@check@numalive@peek#1#2{%
     \begingroup
-        \l@modadvance{\i}{\lb@size@y}{#1}\l@modadvance{\j}{\lb@size@x}{#2}
+        %\l@modadvance{\i}{\lb@size@y}{#1}\l@modadvance{\j}{\lb@size@x}{#2}
+        \advance\i#1 \advance\j#2
         \expandafter\ifx\csname lc@\the\i;\the\j\endcsname\lc@alive
             \global\advance\k1\relax
         \fi
