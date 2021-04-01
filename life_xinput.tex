@@ -1,6 +1,6 @@
 % !TEX root = life.tex
 
-%% ## Parsing RLE-format encoded patterns (experimental). ##
+%% ## Parsing RLE-format encoded patterns. ##
 %% Catcode changes (# and $ denote info-lines and pattern-EOLs respectively).
 \catcode`\#=\active \catcode`\+=6\relax
 
@@ -13,14 +13,14 @@
         \expandafter\@@gameinput
     \fi
 }
-% Avoids tokenization by splitting into two macros.
-\def\@gameinput[+1,+2]{\l@setup\lb@size@x=+1\lb@size@y=+2\relax\catcode`@=11\catcode`\#=\active\catcode`\^^M=\active\gameinput@}
-\def\@@gameinput{\@gameinput[\lb@size@xdefault,\lb@size@ydefault]}
-\def\gameinput@+1{+1\catcode`@=12\catcode`\#=6\catcode`\$=3\catcode`\^^M=5\lb@print\gameforw}
-
-%% ## Header Parsing. ##
 %% Every newline matters, proceed with caution.
 \catcode`\^^M=\active\relax%
+% Avoids freezing catcodes by splitting into two macros.
+\def\@gameinput[+1,+2]{\l@setup\lb@size@x=+1\lb@size@y=+2\relax\catcode`@=11\catcode`\#=\active\catcode`\^^M=\active\gameinput@}%
+\def\@@gameinput{\@gameinput[\lb@size@xdefault,\lb@size@ydefault]}%
+\def\gameinput@+1{^^M+1\catcode`@=12\catcode`\#=6\catcode`\$=3\catcode`\^^M=5\lb@print\gameforw}%
+%
+%% ## Header Parsing. ##
 %% Is it a title? Is it a comment (description)? Is it the author? Do nothing otherwise.
 \long\def#+1 +2^^M{%
     \ifnum\uccode`N=\uccode`+1\relax%
