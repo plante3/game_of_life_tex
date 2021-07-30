@@ -1,3 +1,6 @@
+!!! WARNING BAD CODE !!!
+this is the first thing I coded in TeX, so things are pretty messed up.
+
 # Game of Life in TeX
 An implementation of the finite state automata *Conway's Game of Life* in the typesetting system TeX.
 
