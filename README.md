@@ -1,5 +1,5 @@
 !!! WARNING BAD CODE !!!
-this is the first thing I coded in TeX
+this is the first thing I made in TeX
 
 # Game of Life in TeX
 An implementation of the finite state automata *Conway's Game of Life* in the typesetting system TeX.
