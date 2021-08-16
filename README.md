@@ -4,18 +4,14 @@ this is the first thing I coded in TeX
 # Game of Life in TeX
 An implementation of the finite state automata *Conway's Game of Life* in the typesetting system TeX.
 
-### What?
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=cNi5v6iWGmI" target="_blank"><img src="http://img.youtube.com/vi/cNi5v6iWGmI/0.jpg" 
-alt="Demo." width="240" height="180" border="10" /></a>
-
-### Building & Usage:
+### Usage:
 Download the latest release (`GoL-TeX-V1.22.zip`) and extract the files to a folder. Then run
 ```
 pdftex life.tex
 ```
-Patterns may be input with the `\gameinput` macro taking two arguments. The first is the main input and must strictly conform to the [*RLE* format](https://www.conwaylife.com/wiki/Run_Length_Encoded); the second is how many iterations to generate. An optional argument is allowed to control the size of the board (e.g. `\gameinput[10,20]{...}{...}` initializes a game with width `10` and height `20`). Attributes such as the name and author are set automatically, if provided by #-lines before the header.
+Patterns may be input with the `\gameinput` macro taking two arguments. The first is the main input in the [*RLE* format](https://www.conwaylife.com/wiki/Run_Length_Encoded); the second is how many iterations to generate. An optional argument is allowed to control the size of the board (ex. `\gameinput[10,20]{...}{...}` initializes a game with width `10` and height `20`). Attributes such as the name and author are set automatically, if provided by #-lines before the header.
 
-The rule can be set in the header line in B/S notation and defaults to B3/S23 if not specified.
+The rule can be set in the header lines using B/S notation and defaults to B3/S23 if not specified.
 
 Sample inputs are given below (as well as being provided with source).
 ```tex
@@ -36,11 +32,5 @@ Sample inputs are given below (as well as being provided with source).
 ```
 Sample `.pdf` and `.log` files are given for reference.
 
-### To-do List:
-- [x] (2021-3-30) ~~Support parsing of the [*RLE* format](https://www.conwaylife.com/wiki/Run_Length_Encoded)~~.
-- [x] (2021-3-30) ~~Support handling of the [generalized life](https://en.wikipedia.org/wiki/Life-like_cellular_automaton#Notation_for_rules)~~.
-- [x] (2021-3-31) ~~Implement a toroidal array~~.
-- [ ] Randomized setup.
-
 #### How do I view the output?
-Scroll *really* fast. Or press page down repeatedly.
+Press page down repeatedly.
